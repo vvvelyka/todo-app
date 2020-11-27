@@ -1,6 +1,6 @@
 package com.kpi.project.todoapp.service;
 
-import com.kpi.project.todoapp.dao.RoleDAO;
+import com.kpi.project.todoapp.dao.RoleDAOImpl;
 import com.kpi.project.todoapp.dao.UserDAO;
 import com.kpi.project.todoapp.model.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     private UserDAO userDAO;
 
     @Autowired
-    private RoleDAO roleDAO;
+    private RoleDAOImpl roleDAO;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
