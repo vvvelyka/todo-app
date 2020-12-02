@@ -8,9 +8,6 @@
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
-
-</head>
-
 <body>
 <div id="cover" class="min-vh-100">
     <div id="cover-caption">
@@ -19,20 +16,21 @@
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
                     <h3 class="display-4 py-2">Registration</h3>
                     <div class="px-3">
-                        <form action="register" th:object="${userItem}" method="post">
+                        <form action="#" th:action="@{/save_user}" th:object="${user}" method="post">
+                            <!-- th:object="${userItem}"-->
 
                             <div class="form-group pt-3">
-                                <input type="text" class="form-control" id="uname" placeholder="First Name"
+                                <input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name"
                                        name="firstName" required>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" id="uname" placeholder="Last Name"
+                                <input type="text" th:field="*{lastName}" class="form-control" placeholder="Last Name"
                                        name="lastName" required>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" id="username" placeholder="User Name"
+                                <input type="text" th:field="*{email}" class="form-control" placeholder="Email"
                                        name="username" required>
                             </div>
 
@@ -42,18 +40,12 @@
                                        name="password" required>
                             </div>
 
-                            <div class="form-group pb-4">
-                                <input type="text" th:field="*{email}" class="form-control" id="email"
-                                       placeholder="Email" name="email"
-                                       required>
-                            </div>
+                            <button type="submit" class="btn btn-outline-light">Submit</button>
                         </form>
-
-                        <button type="submit" class="btn btn-outline-light">Submit</button>
 
 
                     </div>
-                    <c:if test="${param.regSucc == true}">
+                    <!--<c:if test="${param.regSucc == true}">
                         <div id="status">
                             <spring:message code="message.regSucc">
                             </spring:message>
@@ -63,7 +55,7 @@
                         <div id="error">
                             <spring:message code="message.regError">
                             </spring:message>
-                        </div>
+                        </div>-->
                 </div>
             </div>
         </div>

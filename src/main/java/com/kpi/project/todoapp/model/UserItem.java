@@ -12,8 +12,7 @@ public class UserItem {
     public UserItem() {
     }
 
-    public UserItem(Long id, String firstName, String lastName, String email, String password) {
-        this.id = id;
+    public UserItem(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -50,12 +49,12 @@ public class UserItem {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
+    public String getEmail() {
 
         return email;
     }
 
-    public void setUserName(String email) {
+    public void setEmail(String email) {
 
         this.email = email;
     }

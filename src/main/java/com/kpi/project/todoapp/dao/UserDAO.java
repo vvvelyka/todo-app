@@ -1,6 +1,5 @@
 package com.kpi.project.todoapp.dao;
 
-
 import com.kpi.project.todoapp.model.UserItem;
 
 import java.util.List;
@@ -10,6 +9,8 @@ public interface UserDAO {
     UserItem getUserById(Long id);
 
     List<UserItem> getAllUsers();
+
+//    boolean findUserAccount(String email, String password);
 
     boolean deleteUser(UserItem user);
 

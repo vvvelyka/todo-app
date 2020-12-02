@@ -12,51 +12,6 @@
 </head>
 
 <body>
-<<<<<<< Updated upstream
-	<div id="cover" class="min-vh-100">
-		<div id="cover-caption">
-			<div class="container">
-				<div class="row text-white">
-					<div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
-						<h1 class="display-4 py-2 text-truncate">To Do</h1>
-						<div class="px-2">
-							<form action="" class="justify-content-center" method="post">
-
-								<div class="form-group">
-									<label for="username"></label>
-									<input type="text" class="form-control" id="username" placeholder="User Name"
-																		 name="username" required>
-								</div>
-
-								<div class="form-group">
-									<label for="password"></label>
-									<input type="password" class="form-control" id="password" placeholder="Password"
-																		 name="password" required>
-								</div>
-
-								<div class="row">
-									<div class="col-md-2">
-										<button type="submit" class="btn btn-outline-light">Login</button>
-									</div>
-									<div class="col-md-7"></div>
-									<div class="col-md-2">
-										<button type="submit" class="btn btn-outline-light">Sign up</button>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 text-right">
-										<label>Haven`t signed yet?</label>
-									</div>
-								</div>
-
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
 <div id="cover" class="min-vh-100">
     <div id="cover-caption">
         <div class="container">
@@ -64,42 +19,38 @@
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
                     <h1 class="display-4 py-2 text-truncate">To Do</h1>
                     <div class="px-2">
-                        <form th:action="@{/j_spring_security_check}" class="justify-content-center" method="POST">
-
+                        <form th:action="@{/}"  class="justify-content-center" method="POST">
+							<!--j_spring_security_check-->
                             <div class="form-group">
                                 <!--<label for="username"></label>-->
-                                <input type="text" class="form-control" placeholder="User Name"
-                                       name="username" required>
+                                <input type="text" class="form-control" placeholder="Email"
+                                       name="email" id="email" required>
                             </div>
 
                             <div class="form-group">
                                 <!--<label for="password"></label>-->
                                 <input type="password" class="form-control" placeholder="Password"
-                                       name="password" required>
+                                       name="password" id="password" required>
                             </div>
                         </form>
 
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-outline-light">Log in</button>
+                                <input type="submit" class="btn btn-outline-light" value="Log in"></input>
                             </div>
                         </div>
                         <div class="pt-3 row">
                             <div class="col-md-12 text-center">
-                                <a th:href="@{/templates/signup.html}" class="text-light">No account?</a>
+                                <a th:href="@{/signup}" class="text-light">No account?</a>
                                 <a href="#" class="text-light">Forgot password?</a>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
->>>>>>> Stashed changes
-
 </body>
 
 </html>
