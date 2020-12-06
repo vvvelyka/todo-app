@@ -17,7 +17,6 @@
                     <h3 class="display-4 py-2">Registration</h3>
                     <div class="px-3">
                         <form action="#" th:action="@{/save_user}" th:object="${user}" method="post">
-                            <!-- th:object="${userItem}"-->
 
                             <div class="form-group pt-3">
                                 <input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name"

@@ -2,6 +2,7 @@ package com.kpi.project.todoapp.controller;
 
 //import com.kpi.project.todoapp.utils.WebUtils;
 //import org.springframework.security.core.Authentication;
+import com.kpi.project.todoapp.dao.UserDAO;
 import com.kpi.project.todoapp.dao.UserDAOImpl;
 import com.kpi.project.todoapp.model.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.security.core.userdetails.User;
 
 
 
 @Controller
-public class MainController {
+public class UserController {
+
+
+    private UserDAO userDAO;
 
     @Autowired
-    private UserDAOImpl userDAO;
+    public UserController(UserDAOImpl userDAO) {
+        this.userDAO = userDAO;
+    }
 
     //@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
     @GetMapping("/")

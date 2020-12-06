@@ -3,7 +3,7 @@ package com.kpi.project.todoapp.model;
 
 public class UserItem {
 
-    private Long id;
+    private Long user_id;
     private String firstName;
     private String lastName;
     private String email;
@@ -21,12 +21,12 @@ public class UserItem {
 
     public Long getId() {
 
-        return id;
+        return user_id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long user_id) {
 
-        this.id = id;
+        this.user_id = user_id;
     }
 
     public String getFirstName() {
