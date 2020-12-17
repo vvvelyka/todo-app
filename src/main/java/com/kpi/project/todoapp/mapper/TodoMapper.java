@@ -20,7 +20,7 @@ public class TodoMapper implements RowMapper<Todo> {
         todo.setTitle(rs.getString("title"));
         todo.setDescription(rs.getString("description"));
         todo.setTargetDate(rs.getDate("target_date"));
-        todo.setIs_done(rs.getBoolean("status"));
+        todo.setDone(rs.getBoolean("status"));
 
         return todo;
     }

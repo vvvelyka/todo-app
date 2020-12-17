@@ -2,6 +2,7 @@ package com.kpi.project.todoapp.controller;
 
 //import com.kpi.project.todoapp.utils.WebUtils;
 //import org.springframework.security.core.Authentication;
+
 import com.kpi.project.todoapp.dao.UserDAO;
 import com.kpi.project.todoapp.dao.UserDAOImpl;
 import com.kpi.project.todoapp.model.UserItem;
@@ -9,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -18,19 +23,60 @@ public class UserController {
 
 
     private UserDAO userDAO;
+    private UserItem user;
 
     @Autowired
     public UserController(UserDAOImpl userDAO) {
         this.userDAO = userDAO;
     }
 
-    //@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
     @GetMapping("/")
-    public String startPage() {
-        return "/login";
+    public String startPage(Model model) {
+        user = new UserItem();
+        model.addAttribute("user", user);
+        return "login";
     }
 
+    @GetMapping("/error")
+    public String errorPage() {
+        return "error";
+    }
 
+    @GetMapping("/success")
+    public String successPage() {
+        return "success";
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("user")  UserItem user, Errors errors, Model model) throws Exception{
+
+//        List<ObjectError> errorList = errors.getAllErrors();
+//        for(ObjectError itr : errorList){
+//            System.out.println(itr.toString());
+//        }
+
+        //System.out.println(bindingResult.hasErrors());
+        if (errors.getErrorCount() > 0) {
+            return "login";
+        } else if (userDAO.validUser(user.getEmail(), user.getPassword()) != null) {
+            return "success";
+        } else {
+            return "error";
+        }
+
+    }
+
+//    @PostMapping("/login")
+//    public String auth() {
+//        return "success";
+//    }
+
+
+//    @GetMapping("/login?error")
+//    public String loginError(Model model) {
+//        model.addAttribute("loginError", true);
+//        return "login";
+//    }
 //    @PostMapping("/")
 //    public String login(@Valid UserItem userItem, BindingResult bindingResult) {
 //
@@ -51,18 +97,21 @@ public class UserController {
     @GetMapping("/signup")
     public String signup(Model model) {
 
-        UserItem user = new UserItem();
-        model.addAttribute("user", user);
+        model.addAttribute("user", new UserItem());
         return "signup";
     }
 
     @PostMapping("/save_user")
-    public String saveUser(@ModelAttribute("user") UserItem user) {
+    public String saveUser(@ModelAttribute("user") UserItem user, BindingResult bindingResult) {
 
-        if(userDAO.createUser(user)) {
+        if (bindingResult.hasErrors()) {
+            return "error";
+        }else if (userDAO.createUser(user)) {
             return "success";
+        } else {
+            return "error";
         }
-        return "error";
+
     }
 //
 //    @RequestMapping(value = "/signup", method = RequestMethod.GET)

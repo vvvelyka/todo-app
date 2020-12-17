@@ -4,11 +4,14 @@
 <head>
 	<meta charset="utf-8">
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
-	<title>To Do</title>
+	<title>ToDo</title>
 	<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">-->
 	<link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet"/>
 	<link th:href = "@{/css/style.css}" rel="stylesheet"/>
+   <!-- <div sec:authorize="hasRole('ROLE_ADMIN')">
+        This content is only shown to administrators.
+    </div>-->
 </head>
 
 <body>
@@ -19,30 +22,41 @@
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
                     <h1 class="display-4 py-2 text-truncate">To Do</h1>
                     <div class="px-2">
-                        <form th:action="@{/}"  class="justify-content-center" method="POST">
+                       <!-- <div th:if="${loginError}" class="alert alert-error">
+                            Invalid username and password.
+                        </div>-->
+                        <form th:action="@{/login}" th:object="${user}" class="justify-content-center" method="post" autofocus>
 							<!--j_spring_security_check-->
                             <div class="form-group">
                                 <!--<label for="username"></label>-->
-                                <input type="text" class="form-control" placeholder="Email"
-                                       name="email" id="email" required>
+                                <input type="text" th:field="*{email}" class="form-control" placeholder="Email"
+                                       name="username" id="username" required/>
+                                <label for="username" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
                             </div>
 
                             <div class="form-group">
                                 <!--<label for="password"></label>-->
-                                <input type="password" class="form-control" placeholder="Password"
-                                       name="password" id="password" required>
+                                <input type="password" th:field="*{password}" class="form-control" placeholder="Password"
+                                                                     name="password" id="password" required/>
+                                <label for="password" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
                             </div>
+
+                            <button type="submit" class="btn btn-outline-light">Log in</button>
                         </form>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-12 text-center">
-                                <input type="submit" class="btn btn-outline-light" value="Log in"></input>
+                                <button name="submit" type="submit" class="btn btn-outline-light">Log in</button>
+                                <input type="submit" class="btn btn-outline-light" value="Log in">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="pt-3 row">
                             <div class="col-md-12 text-center">
                                 <a th:href="@{/signup}" class="text-light">No account?</a>
                                 <a href="#" class="text-light">Forgot password?</a>
+                                <!--<a sec:authorize="!isAuthenticated()" class="btn btn-lg btn-primary" href="/register" role="button">Register &raquo;</a>
+                                <a sec:authorize="!isAuthenticated()" class="btn btn-lg btn-primary" href="/login" role="button">Login &raquo;</a>
+                                <a sec:authorize="isAuthenticated()" class="btn btn-lg btn-primary" href="/logout" role="button">Logout &raquo;</a>-->
                             </div>
                         </div>
                     </div>

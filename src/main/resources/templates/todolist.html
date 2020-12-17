@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>ToDo</title>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+</head>
+
+<body>
+<header>
+    <nav id="nav" class="navbar navbar-expand-md navbar-dark">
+        <div>
+            <a href="/todo-list.html" class="navbar-brand"> Todo List</a>
+        </div>
+
+        <ul class="navbar-nav">
+            <li><a href="/list" class="nav-link">User Info</a></li>
+        </ul>
+
+        <ul class="navbar-nav navbar-collapse justify-content-end">
+            <li><a href="#" class="nav-link">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<div id="cover" class="min-vh-100 ">
+    <div id="cover-caption">
+        <div class="container text-white">
+
+            <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
+
+            <div class="row d-flex justify-content-between">
+                <h3 class="display-4 text-center">List of Todos</h3>
+
+                <div>
+                    <a id="add" href="#" class="btn btn-outline-light justify-content-end">Add Todo</a>
+                </div>
+            </div>
+
+            <div th:switch="${todoList}" class="row">
+                <h2 th:case="null">No users yet!</h2>
+                <table id="content" class="table table-dark table-borderless">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Target Date</th>
+                        <th>Todo Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="todo : ${todoList}">
+                        <td th:text="${todo.getTitle()}"></td>
+                        <td th:text="${todo.gettargetDate()}"></td>
+                        <td th:text="${todo.isDone()}"></td>
+
+                        <td>
+                            <a th:href="@{/edit/{id}(id=${todo.id})}">Edit</a>
+                            <a th:href="@{/delete/{id}(id=${todo.id})}">Delete</a>
+
+
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                            <!--&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="#" class="link">Delete</a>
+                            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                            <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>-->
+
+                        </td>
+
+                        <!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
+                              <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

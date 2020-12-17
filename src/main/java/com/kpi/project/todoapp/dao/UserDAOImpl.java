@@ -15,10 +15,12 @@ import java.util.List;
 @Repository
 public class UserDAOImpl implements UserDAO{
 
-    JdbcTemplate jdbcTemplate;
+    //@Autowired
+    private JdbcTemplate jdbcTemplate;
     //DataSource dataSource;
 
     private final String SQL_FIND_USER = "select * from users where email = ?";
+    private final String SQL_VALID_USER = "select * from users where email = ? and password = ? ";
     private final String SQL_DELETE_PERSON = "delete from users where user_id = ?";
     private final String SQL_UPDATE_PERSON = "update users set first_name = ?, last_name = ?, email  = ? where id = ?";
     private final String SQL_GET_ALL = "select * from users";
@@ -38,6 +40,28 @@ public class UserDAOImpl implements UserDAO{
     public UserItem getUserByEmail(String email) throws DataAccessException {
         return jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[] { email }, new UserMapper());
         //????????????(SQL_FIND_PERSON, new UserMapper(), new Object[] { id });????????????????
+    }
+
+    @Override
+    public UserItem validUser(String email, String password) {
+        UserItem user = jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[] { email }, new UserMapper());
+        System.out.println(user.getEmail());
+
+        if(user != null) {
+            System.out.println(user.getPassword());
+            System.out.println(password);
+            password.equals(user.getPassword());
+
+            if(password.equals(user.getPassword())) {
+
+                return user;
+            }
+           // return user;
+
+        }
+
+
+        return null;
     }
 
     @Override

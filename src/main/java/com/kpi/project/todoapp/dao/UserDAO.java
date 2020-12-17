@@ -9,6 +9,8 @@ public interface UserDAO {
     //    UserItem getUserById(Long id);
     UserItem getUserByEmail(String email);
 
+    UserItem validUser(String email, String password);
+
     List<UserItem> getAllUsers();
 
 //    boolean findUserAccount(String email, String password);

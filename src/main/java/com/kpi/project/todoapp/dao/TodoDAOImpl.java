@@ -10,18 +10,22 @@ import java.util.List;
 
 public class TodoDAOImpl implements TodoDAO{
 
-    JdbcTemplate jdbcTemplate;
+   // @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private final String SQL_FIND_TODO = "select * from todos where todo_id = ?";
     private final String SQL_DELETE_TODO = "delete from todos where todo_id = ?";
-    private final String SQL_UPDATE_TODO = "update todos set user_id = ?, title = ?, description  = ?, target_date = ?, is_done = ? where todo_id = ?";
+    private final String SQL_UPDATE_TODO = "update todos set user_id = ?, title = ?, description  = ?, target_date = ?, status = ? where todo_id = ?";
     private final String SQL_GET_ALL = "select * from todos";
-    private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date, is_done) values(?,?,?,?)";
+    private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date, status) values(?,?,?,?)";
 
-    @Autowired
-    public TodoDAOImpl(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public TodoDAOImpl() {
     }
+
+//    @Autowired
+//    public TodoDAOImpl(DataSource dataSource) {
+//        this.jdbcTemplate = new JdbcTemplate(dataSource);
+//    }
 
     @Override
     public List<Todo> getAllTodos(Long user_id) {
