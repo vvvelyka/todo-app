@@ -4,19 +4,26 @@ import com.kpi.project.todoapp.mapper.TodoMapper;
 import com.kpi.project.todoapp.model.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+
+@Repository
 public class TodoDAOImpl implements TodoDAO{
 
-   // @Autowired
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private final String SQL_FIND_TODO = "select * from todos where todo_id = ?";
     private final String SQL_DELETE_TODO = "delete from todos where todo_id = ?";
     private final String SQL_UPDATE_TODO = "update todos set user_id = ?, title = ?, description  = ?, target_date = ?, status = ? where todo_id = ?";
-    private final String SQL_GET_ALL = "select * from todos";
+    private final String SQL_GET_ALL = "select * from todos where user_id = ?";
     private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date, status) values(?,?,?,?)";
 
     public TodoDAOImpl() {
@@ -29,7 +36,29 @@ public class TodoDAOImpl implements TodoDAO{
 
     @Override
     public List<Todo> getAllTodos(Long user_id) {
-        return jdbcTemplate.query(SQL_GET_ALL, new TodoMapper());
+
+        List<Todo> todoList = new ArrayList<>() ;
+
+        List<Map<String, Object>> todos = jdbcTemplate.queryForList(SQL_GET_ALL, user_id);
+//        System.out.println(todoList.size());
+
+        todos.forEach( rowMap -> {
+            Todo todo = new Todo();
+            String title = (String) rowMap.get("title");
+            System.out.println(title);
+            todo.setTodoId((Long) rowMap.get("todo_id"));
+            todo.setUserId(user_id);
+            todo.setTitle((String) rowMap.get("title"));
+            todo.setDescription((String) rowMap.get("description"));
+            todo.setTargetDate((Date) rowMap.get("target_date"));
+            todo.setDone((boolean) rowMap.get("status"));
+            todoList.add(todo);
+
+        });
+
+//        System.out.println(todoList.size());
+
+        return todoList;
     }
 
     @Override

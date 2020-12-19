@@ -4,21 +4,19 @@
 <head>
     <title>ToDo</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
-</head>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
 
 </head>
-
 <body>
 <header>
-    <nav id="nav" class="navbar navbar-expand-md navbar-dark">
+    <nav id="navigation" class="navbar navbar-expand-md navbar-dark">
         <div>
-            <a href="/todo-list.html" class="navbar-brand"> Todo List</a>
+            <a th:href="@{/todolist}" class="navbar-brand">Todo List</a>
         </div>
 
         <ul class="navbar-nav">
-            <li><a href="/list" class="nav-link">User Info</a></li>
+            <li><a href="#" class="nav-link">User Info</a></li>
         </ul>
 
         <ul class="navbar-nav navbar-collapse justify-content-end">
@@ -41,41 +39,43 @@
             </div>
 
             <div th:switch="${todoList}" class="row">
-                <h2 th:case="null">No users yet!</h2>
-                <table id="content" class="table table-dark table-borderless">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Target Date</th>
-                        <th>Todo Status</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="todo : ${todoList}">
-                        <td th:text="${todo.getTitle()}"></td>
-                        <td th:text="${todo.gettargetDate()}"></td>
-                        <td th:text="${todo.isDone()}"></td>
+                <h2 th:case="null">No todos yet!</h2>
+                <div th:case="*">
+                    <table id="content" class="table table-dark table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Target Date</th>
+                            <th>Todo Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="todo : ${todoList}">
+                            <td th:text="${todo.title}"></td>
+                            <td th:text="${todo.targetDate}"></td>
+                            <td th:text="${todo.isDone()}"></td>
 
-                        <td>
-                            <a th:href="@{/edit/{id}(id=${todo.id})}">Edit</a>
-                            <a th:href="@{/delete/{id}(id=${todo.id})}">Delete</a>
+                            <td>
+                                <a th:href="@{/edit/{id}(id=${todo.getTodoId()})}">Edit</a>
+                                <a th:href="@{/delete/{id}(id=${todo.getTodoId()})}">Delete</a>
 
 
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
-                            <!--&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="#" class="link">Delete</a>
-                            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                            <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>-->
+                                <!--<a href="#">Edit</a>
+                                <a href="#">Delete</a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="#" class="link">Delete</a>
+                                <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>-->
 
-                        </td>
+                            </td>
 
-                        <!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
-                              <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
-                    </tr>
-                    </tbody>
-                </table>
+                            <!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
+                                  <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

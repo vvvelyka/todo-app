@@ -10,19 +10,19 @@ public class UserItem {
     private Long user_id;
 
 
-    @Size(max=30)
+    @Size(min=2, max=30, message = "Firstname should be between 2 and 50 symbols")
     private String firstName;
 
 
-    @Size(max=30)
+    @Size(min=2, max=30, message = "Lastname should be between 2 and 50 symbols")
     private String lastName;
 
     @NotNull
-    @Size(max=255, message = "Email can not be longer than 255 symbols")
+    @Size(min=6, max=320, message = "Email should be between 6 and 320 symbols")
     private String email;
 
     @NotNull
-    @Size(min=7, max=30, message = "Password should be at least of 8 symbols")
+    @Size(min=8, max=30, message = "Password should be between 8 and 50 symbols")
     private String password;
 
     private boolean enabled;
@@ -94,6 +94,14 @@ public class UserItem {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Todo> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(List<Todo> todoList) {
+        this.todoList = todoList;
     }
 
     @Override

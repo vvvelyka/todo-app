@@ -1,6 +1,8 @@
 package com.kpi.project.todoapp.dao;
 
 import com.kpi.project.todoapp.mapper.UserMapper;
+
+import com.kpi.project.todoapp.model.Todo;
 import com.kpi.project.todoapp.model.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -13,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     //@Autowired
     private JdbcTemplate jdbcTemplate;
+    private TodoDAO todoDAO;
     //DataSource dataSource;
 
     private final String SQL_FIND_USER = "select * from users where email = ?";
@@ -30,38 +33,37 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Autowired
-    public UserDAOImpl(DataSource dataSource) {
+    public UserDAOImpl(DataSource dataSource, TodoDAOImpl todoDAO) {
 
         //this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.todoDAO = todoDAO;
     }
 
     @Override
     public UserItem getUserByEmail(String email) throws DataAccessException {
-        return jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[] { email }, new UserMapper());
+        return jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[]{email}, new UserMapper());
         //????????????(SQL_FIND_PERSON, new UserMapper(), new Object[] { id });????????????????
     }
 
     @Override
     public UserItem validUser(String email, String password) {
-        UserItem user = jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[] { email }, new UserMapper());
+        UserItem user = jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[]{email}, new UserMapper());
         System.out.println(user.getEmail());
 
-        if(user != null) {
-            System.out.println(user.getPassword());
-            System.out.println(password);
-            password.equals(user.getPassword());
+        if (password.equals(user.getPassword())) {
 
-            if(password.equals(user.getPassword())) {
+            List<Todo> todoList = todoDAO.getAllTodos(user.getId());
+//                    if(!(todoDAO.getAllTodos(user.getId())).contains(null)) {
+//                        todoList
+//                    }
+            user.setTodoList(todoList);
 
-                return user;
-            }
-           // return user;
-
+            return user;
+        } else {
+            return null;
         }
 
-
-        return null;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("user")  UserItem user, Errors errors, Model model) throws Exception{
+    public String login(@ModelAttribute("user") UserItem user, Errors errors, Model model) throws Exception {
 
 //        List<ObjectError> errorList = errors.getAllErrors();
 //        for(ObjectError itr : errorList){
@@ -56,12 +56,16 @@ public class UserController {
 //        }
 
         //System.out.println(bindingResult.hasErrors());
-        if (errors.getErrorCount() > 0) {
-            return "login";
-        } else if (userDAO.validUser(user.getEmail(), user.getPassword()) != null) {
-            return "success";
+//        if (errors.getErrorCount() > 0) {
+//            return "login";
+//        } else
+        if (userDAO.validUser(user.getEmail(), user.getPassword()) != null) {
+            model.addAttribute("todoList", user.getTodoList());
+            //model.addAttribute("message", "Wrong email or password");
+            return "todolist";
         } else {
-            return "error";
+            model.addAttribute("message", "Wrong email or password");
+            return "login";
         }
 
     }
@@ -102,12 +106,12 @@ public class UserController {
     }
 
     @PostMapping("/save_user")
-    public String saveUser(@ModelAttribute("user") UserItem user, BindingResult bindingResult) {
+    public String saveUser(@Valid @ModelAttribute("user") UserItem user, Errors errors) {
 
-        if (bindingResult.hasErrors()) {
-            return "error";
-        }else if (userDAO.createUser(user)) {
-            return "success";
+        if (errors.getErrorCount() > 0) {
+            return "signup";
+        } else if (userDAO.createUser(user)) {
+            return "login";
         } else {
             return "error";
         }
