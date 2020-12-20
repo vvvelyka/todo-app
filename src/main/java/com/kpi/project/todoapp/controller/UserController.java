@@ -3,8 +3,10 @@ package com.kpi.project.todoapp.controller;
 //import com.kpi.project.todoapp.utils.WebUtils;
 //import org.springframework.security.core.Authentication;
 
+import com.kpi.project.todoapp.dao.TodoDAO;
 import com.kpi.project.todoapp.dao.UserDAO;
 import com.kpi.project.todoapp.dao.UserDAOImpl;
+import com.kpi.project.todoapp.model.Todo;
 import com.kpi.project.todoapp.model.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,10 @@ public class UserController {
 
     private UserDAO userDAO;
     private UserItem user;
+    @Autowired
+    private TodoDAO todoDAO;
+
+
 
     @Autowired
     public UserController(UserDAOImpl userDAO) {
@@ -59,8 +65,13 @@ public class UserController {
 //        if (errors.getErrorCount() > 0) {
 //            return "login";
 //        } else
-        if (userDAO.validUser(user.getEmail(), user.getPassword()) != null) {
-            model.addAttribute("todoList", user.getTodoList());
+        this.user = userDAO.validUser(user.getEmail(), user.getPassword());
+        if ( this.user != null) {
+
+//            for(int i=0;i<user.getTodoList().size();i++){
+//                System.out.println(user.getTodoList().get(i));
+//            }
+            model.addAttribute("todoList", this.user.getTodoList());
             //model.addAttribute("message", "Wrong email or password");
             return "todolist";
         } else {
@@ -101,7 +112,7 @@ public class UserController {
     @GetMapping("/signup")
     public String signup(Model model) {
 
-        model.addAttribute("user", new UserItem());
+        model.addAttribute("user", user);
         return "signup";
     }
 
@@ -116,6 +127,28 @@ public class UserController {
             return "error";
         }
 
+    }
+
+
+    @GetMapping("/add_todo")
+    public String addTodo(Model model) {
+    System.out.println(user.getId());
+        model.addAttribute("todo", new Todo());
+        return "todo-form";
+    }
+
+
+    @PostMapping("/save_todo")
+    public String saveTodo(@Valid @ModelAttribute("todo") Todo todo, Errors errors, Model model) {
+        todo.setUserId(user.getId());
+        System.out.println(todo.toString());
+        if (errors.getErrorCount() > 0) {
+            return "todo-form";
+        } else if (todoDAO.createTodo(todo)) {
+            return "todolist";
+        } else {
+            return "error";
+        }
     }
 //
 //    @RequestMapping(value = "/signup", method = RequestMethod.GET)

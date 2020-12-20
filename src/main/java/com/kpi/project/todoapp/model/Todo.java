@@ -1,13 +1,16 @@
 package com.kpi.project.todoapp.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Todo {
 
-    private Long todo_id;
+    private Integer todo_id;
     private Long user_id;
     private String title;
     private String description;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date targetDate; //LocalDate????
     private boolean is_done;
 
@@ -21,11 +24,11 @@ public class Todo {
         this.targetDate = targetDate;
     }
 
-    public Long getTodoId() {
+    public Integer getTodoId() {
         return todo_id;
     }
 
-    public void setTodoId(Long todo_id) {
+    public void setTodoId(Integer todo_id) {
         this.todo_id = todo_id;
     }
 
@@ -69,4 +72,15 @@ public class Todo {
         this.is_done = is_done;
     }
 
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "todo_id=" + todo_id +
+                ", user_id=" + user_id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", targetDate=" + targetDate +
+                ", is_done=" + is_done +
+                '}';
+    }
 }

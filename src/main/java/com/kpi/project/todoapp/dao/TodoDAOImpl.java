@@ -24,7 +24,7 @@ public class TodoDAOImpl implements TodoDAO{
     private final String SQL_DELETE_TODO = "delete from todos where todo_id = ?";
     private final String SQL_UPDATE_TODO = "update todos set user_id = ?, title = ?, description  = ?, target_date = ?, status = ? where todo_id = ?";
     private final String SQL_GET_ALL = "select * from todos where user_id = ?";
-    private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date, status) values(?,?,?,?)";
+    private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date) values(?,?,?,?)";
 
     public TodoDAOImpl() {
     }
@@ -45,8 +45,8 @@ public class TodoDAOImpl implements TodoDAO{
         todos.forEach( rowMap -> {
             Todo todo = new Todo();
             String title = (String) rowMap.get("title");
-            System.out.println(title);
-            todo.setTodoId((Long) rowMap.get("todo_id"));
+//            System.out.println(title);
+            todo.setTodoId((Integer) rowMap.get("todo_id"));
             todo.setUserId(user_id);
             todo.setTitle((String) rowMap.get("title"));
             todo.setDescription((String) rowMap.get("description"));
@@ -70,7 +70,7 @@ public class TodoDAOImpl implements TodoDAO{
     @Override
     public boolean createTodo(Todo todo) {
         return jdbcTemplate.update(SQL_INSERT_TODO, todo.getUserId(), todo.getTitle(),
-                todo.getDescription(), todo.getTargetDate(), todo.isDone()) > 0;
+                todo.getDescription(), todo.getTargetDate()) > 0;
     }
 
     @Override

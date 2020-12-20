@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface UserDAO {
 
-    //    UserItem getUserById(Long id);
+    int getIdByEmail(String email);
+
     UserItem getUserByEmail(String email);
 
     UserItem validUser(String email, String password);

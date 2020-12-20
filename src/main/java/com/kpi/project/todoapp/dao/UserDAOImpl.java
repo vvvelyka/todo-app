@@ -6,12 +6,10 @@ import com.kpi.project.todoapp.model.Todo;
 import com.kpi.project.todoapp.model.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -23,10 +21,11 @@ public class UserDAOImpl implements UserDAO {
     //DataSource dataSource;
 
     private final String SQL_FIND_USER = "select * from users where email = ?";
-    private final String SQL_VALID_USER = "select * from users where email = ? and password = ? ";
+    private final String SQL_VALID_USER = "select * from users where email = ? and password = ? ";//!!!!!!!!!!!!!
     private final String SQL_DELETE_PERSON = "delete from users where user_id = ?";
     private final String SQL_UPDATE_PERSON = "update users set first_name = ?, last_name = ?, email  = ? where id = ?";
     private final String SQL_GET_ALL = "select * from users";
+    private final String SQL_GET_ID = "select user_id from users where email = ?";
     private final String SQL_INSERT_PERSON = "insert into users(first_name, last_name, email, password) values(?,?,?,?)";
 
     public UserDAOImpl() {
@@ -41,6 +40,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public int getIdByEmail(String email) {
+        int id = 1;
+        return id;
+    }
+
+    @Override
     public UserItem getUserByEmail(String email) throws DataAccessException {
         return jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[]{email}, new UserMapper());
         //????????????(SQL_FIND_PERSON, new UserMapper(), new Object[] { id });????????????????
@@ -50,6 +55,7 @@ public class UserDAOImpl implements UserDAO {
     public UserItem validUser(String email, String password) {
         UserItem user = jdbcTemplate.queryForObject(SQL_FIND_USER, new Object[]{email}, new UserMapper());
         System.out.println(user.getEmail());
+        System.out.println(user.getId());
 
         if (password.equals(user.getPassword())) {
 
@@ -58,6 +64,9 @@ public class UserDAOImpl implements UserDAO {
 //                        todoList
 //                    }
             user.setTodoList(todoList);
+//            for(int i=0;i<todoList.size();i++){
+//                System.out.println(todoList.get(i));
+//            }
 
             return user;
         } else {
