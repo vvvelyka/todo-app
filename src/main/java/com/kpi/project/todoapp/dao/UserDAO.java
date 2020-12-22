@@ -6,15 +6,10 @@ import java.util.List;
 
 public interface UserDAO {
 
-    int getIdByEmail(String email);
 
     UserItem getUserByEmail(String email);
 
     UserItem validUser(String email, String password);
-
-    List<UserItem> getAllUsers();
-
-//    boolean findUserAccount(String email, String password);
 
     boolean deleteUser(UserItem user);
 

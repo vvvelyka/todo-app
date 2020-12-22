@@ -1,5 +1,6 @@
 package com.kpi.project.todoapp.model;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,23 +10,22 @@ public class UserItem {
 
     private Long user_id;
 
-
-    @Size(min=2, max=30, message = "Firstname should be between 2 and 50 symbols")
+    @NotEmpty(message = "Can`t be empty")
+    @Size(min=2, max=50, message = "Firstname should be between 2 and 50 symbols")
     private String firstName;
 
-
-    @Size(min=2, max=30, message = "Lastname should be between 2 and 50 symbols")
+    @NotEmpty(message = "Can`t be empty")
+    @Size(min=2, max=50, message = "Lastname should be between 2 and 50 symbols")
     private String lastName;
 
-    @NotNull
+    @NotEmpty(message = "Can`t be empty")
     @Size(min=6, max=320, message = "Email should be between 6 and 320 symbols")
     private String email;
 
-    @NotNull
-    @Size(min=8, max=30, message = "Password should be between 8 and 50 symbols")
+    @NotEmpty(message = "Can`t be empty")
+    @Size(min=8, max=50, message = "Password should be between 8 and 50 symbols")
     private String password;
 
-    private boolean enabled;
     private List<Todo> todoList;
 
     public UserItem() {
@@ -88,14 +88,6 @@ public class UserItem {
         this.password = password;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public List<Todo> getTodoList() {
         return todoList;
     }
@@ -106,9 +98,13 @@ public class UserItem {
 
     @Override
     public String toString() {
-        return "User{" +
-                ", username='" + email + '\'' +
+        return "UserItem{" +
+                "user_id=" + user_id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", todoList=" + todoList +
                 '}';
     }
 }

@@ -8,10 +8,6 @@ import java.sql.SQLException;
 
 public class UserMapper implements RowMapper<UserItem> {
 
-    public static final String BASE_SQL
-            = "SELECT u.id, u.first_name, u.last_name, u.email, u.password FROM users u";
-
-
     public UserItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 
         UserItem user = new UserItem();
@@ -20,7 +16,6 @@ public class UserMapper implements RowMapper<UserItem> {
         user.setLastName(rs.getString("last_name"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
-        user.setEnabled(rs.getBoolean("enabled"));
 
         return user;
     }

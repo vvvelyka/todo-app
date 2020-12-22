@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <title>ToDo</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToDo</title>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
 
@@ -11,36 +12,32 @@
 <body>
 <header>
     <nav id="navigation" class="navbar navbar-expand-md navbar-dark">
-        <div>
-            <a th:href="@{/todolist}" class="navbar-brand">Todo List</a>
-        </div>
+<!--        <div>-->
+<!--            <p class="navbar-brand">Todo List</p>-->
+<!--        </div>-->
 
         <ul class="navbar-nav">
-            <li><a href="#" class="nav-link">User Info</a></li>
+            <li><a th:href="@{/user_info}" class="nav-link">User Info</a></li>
         </ul>
 
         <ul class="navbar-nav navbar-collapse justify-content-end">
-            <li><a href="#" class="nav-link">Logout</a></li>
+            <li><a th:href="@{/}" class="nav-link">Logout</a></li>
         </ul>
     </nav>
 </header>
 <div id="cover" class="min-vh-100 ">
     <div id="cover-caption">
         <div class="container text-white">
-
-            <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
-
             <div class="row d-flex justify-content-between">
                 <h3 class="display-4 text-center">List of Todos</h3>
-
                 <div>
                     <a id="add" th:href="@{/add_todo}" class="btn btn-outline-light justify-content-end">Add Todo</a>
                 </div>
             </div>
 
-            <div th:switch="${todoList}" class="row">
-                <h2 th:case="null">No todos yet!</h2>
-                <div th:case="*">
+            <div th:switch="${todoList.isEmpty()}">
+                <h2 th:case="true">No todos yet!</h2>
+                <div th:case="false">
                     <table id="content" class="table table-dark table-borderless">
                         <thead>
                         <tr>
@@ -54,24 +51,36 @@
                         <tr th:each="todo : ${todoList}">
                             <td th:text="${todo.title}"></td>
                             <td th:text="${todo.targetDate}"></td>
-                            <td th:text="${todo.isDone()}"></td>
-
                             <td>
-                                <a th:href="@{/edit/{id}(id=${todo.getTodoId()})}">Edit</a>
-                                <a th:href="@{/delete/{id}(id=${todo.getTodoId()})}">Delete</a>
-
-
-                                <!--<a href="#">Edit</a>
-                                <a href="#">Delete</a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="#" class="link">Delete</a>
-                                <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>-->
-
+                                <p th:block th:if="${todo.is_done}" style="color:greenyellow">Done</th:block></p>
+                                <p th:block th:unless="${todo.is_done}" style="color:orangered">Not done</th:block></p>
                             </td>
 
-                            <!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
-                                  <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+                            <td>
+                                <a th:href="@{/edit_todo/{id}(id=${todo.getTodoId()})}" style="color: white" onmouseover="this.style.color='blueviolet';" onmouseout="this.style.color='white';" class="text-decoration-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path
+                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z">
+                                        </path>
+                                        <path fill-rule="evenodd"
+                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z">
+                                        </path>
+                                    </svg>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a id="delete" th:href="@{/delete_todo/{id}(id=${todo.getTodoId()})}" style="color: white" onmouseover="this.style.color='blueviolet';" onmouseout="this.style.color='white';" title="Placeholder link title" class="text-decoration-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                                        </path>
+                                        <path fill-rule="evenodd"
+                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

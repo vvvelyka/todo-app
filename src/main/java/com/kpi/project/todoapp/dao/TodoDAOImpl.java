@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,17 +20,12 @@ public class TodoDAOImpl implements TodoDAO{
 
     private final String SQL_FIND_TODO = "select * from todos where todo_id = ?";
     private final String SQL_DELETE_TODO = "delete from todos where todo_id = ?";
-    private final String SQL_UPDATE_TODO = "update todos set user_id = ?, title = ?, description  = ?, target_date = ?, status = ? where todo_id = ?";
+    private final String SQL_UPDATE_TODO = "update todos set title = ?, description  = ?, target_date = ?, status = ? where todo_id = ?";
     private final String SQL_GET_ALL = "select * from todos where user_id = ?";
     private final String SQL_INSERT_TODO = "insert into todos(user_id, title, description, target_date) values(?,?,?,?)";
 
     public TodoDAOImpl() {
     }
-
-//    @Autowired
-//    public TodoDAOImpl(DataSource dataSource) {
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//    }
 
     @Override
     public List<Todo> getAllTodos(Long user_id) {
@@ -40,20 +33,16 @@ public class TodoDAOImpl implements TodoDAO{
         List<Todo> todoList = new ArrayList<>() ;
 
         List<Map<String, Object>> todos = jdbcTemplate.queryForList(SQL_GET_ALL, user_id);
-//        System.out.println(todoList.size());
 
         todos.forEach( rowMap -> {
             Todo todo = new Todo();
-            String title = (String) rowMap.get("title");
-//            System.out.println(title);
             todo.setTodoId((Integer) rowMap.get("todo_id"));
             todo.setUserId(user_id);
             todo.setTitle((String) rowMap.get("title"));
             todo.setDescription((String) rowMap.get("description"));
             todo.setTargetDate((Date) rowMap.get("target_date"));
-            todo.setDone((boolean) rowMap.get("status"));
+            todo.setIs_done((boolean) rowMap.get("status"));
             todoList.add(todo);
-
         });
 
 //        System.out.println(todoList.size());
@@ -64,7 +53,6 @@ public class TodoDAOImpl implements TodoDAO{
     @Override
     public Todo getTodoById(Long todo_id) {
         return jdbcTemplate.queryForObject(SQL_FIND_TODO, new Object[] { todo_id }, new TodoMapper());
-        //????????????(SQL_FIND_PERSON, new UserMapper(), new Object[] { id });????????????????
     }
 
     @Override
@@ -75,8 +63,8 @@ public class TodoDAOImpl implements TodoDAO{
 
     @Override
     public boolean updateTodo(Todo todo) {
-        return jdbcTemplate.update(SQL_UPDATE_TODO, todo.getUserId(), todo.getTitle(),
-                todo.getDescription(), todo.getTargetDate(), todo.isDone(),
+        return jdbcTemplate.update(SQL_UPDATE_TODO, todo.getTitle(),
+                todo.getDescription(), todo.getTargetDate(), todo.getIs_done(),
                 todo.getTodoId()) > 0;
     }
 

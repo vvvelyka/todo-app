@@ -8,9 +8,6 @@ import java.sql.SQLException;
 
 public class TodoMapper implements RowMapper<Todo> {
 
-    public static final String BASE_SQL
-            = "SELECT t.todo_id, t.user_id, t.title, t.description, t.target_date, t.status FROM todos t";
-
     @Override
     public Todo mapRow(ResultSet rs, int rowNum) throws SQLException {
 
@@ -20,7 +17,7 @@ public class TodoMapper implements RowMapper<Todo> {
         todo.setTitle(rs.getString("title"));
         todo.setDescription(rs.getString("description"));
         todo.setTargetDate(rs.getDate("target_date"));
-        todo.setDone(rs.getBoolean("status"));
+        todo.setIs_done(rs.getBoolean("status"));
 
         return todo;
     }

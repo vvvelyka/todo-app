@@ -2,16 +2,23 @@ package com.kpi.project.todoapp.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Todo {
 
     private Integer todo_id;
     private Long user_id;
+
+    @NotNull
+    @Size(min=3, max=50, message = "Title should be between 3 and 50 symbols")
     private String title;
+
+    @Size(max=255, message = "Description can not be more than 255 symbols")
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date targetDate; //LocalDate????
+    private Date targetDate;
     private boolean is_done;
 
     public Todo() {
@@ -64,11 +71,11 @@ public class Todo {
         this.targetDate = targetDate;
     }
 
-    public boolean isDone() {
+    public boolean getIs_done() {
         return is_done;
     }
 
-    public void setDone(boolean is_done) {
+    public void setIs_done(boolean is_done) {
         this.is_done = is_done;
     }
 

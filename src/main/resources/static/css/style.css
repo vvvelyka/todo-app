@@ -34,7 +34,7 @@ form:before {
 }
 
 #add {
-    margin-bottom: -5em;
+    margin-bottom: -4em;
     margin-right: 0.5em;
 }
 
@@ -44,7 +44,7 @@ form:before {
     /*left: 0;
     position: absolute;
     top: 0;*/
-    /*width: 100%;*/
+    width: 100%;
     background-color: rgba(0,0,0,0.3);
     /*z-index: -1;*/
     border-radius: 10px;
@@ -54,28 +54,6 @@ form:before {
     border: 0;
 }
 
-
-/* html {
-  font-size: 1rem;
-}
-
-@include media-breakpoint-up(sm) {
-  html {
-    font-size: 1.2rem;
-  }
-}
-
-@include media-breakpoint-up(md) {
-  html {
-    font-size: 1.4rem;
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  html {
-    font-size: 1.6rem;
-  }
-}*/
 
 
 
