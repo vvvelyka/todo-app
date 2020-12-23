@@ -36,7 +36,7 @@ public class TodoDAOImpl implements TodoDAO{
 
         todos.forEach( rowMap -> {
             Todo todo = new Todo();
-            todo.setTodoId((Integer) rowMap.get("todo_id"));
+            todo.setTodoId((Long) rowMap.get("todo_id"));
             todo.setUserId(user_id);
             todo.setTitle((String) rowMap.get("title"));
             todo.setDescription((String) rowMap.get("description"));

@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Todo {
 
-    private Integer todo_id;
+    private Long todo_id;
     private Long user_id;
 
     @NotNull
@@ -31,11 +31,11 @@ public class Todo {
         this.targetDate = targetDate;
     }
 
-    public Integer getTodoId() {
+    public Long getTodoId() {
         return todo_id;
     }
 
-    public void setTodoId(Integer todo_id) {
+    public void setTodoId(Long todo_id) {
         this.todo_id = todo_id;
     }
 
